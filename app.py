@@ -1,19 +1,16 @@
 from flask import Flask, request, jsonify, render_template_string
 import psycopg2
 import os
+from urllib.parse import urlparse
 from datetime import datetime
 
 app = Flask(__name__)
 
-# Database connection function
+# Get database URL from environment variable
+DATABASE_URL = os.environ.get('DATABASE_URL')
+
 def get_db_connection():
-    conn = psycopg2.connect(
-        host=os.environ.get('DB_HOST'),
-        database=os.environ.get('DB_NAME'),
-        user=os.environ.get('DB_USER'),
-        password=os.environ.get('DB_PASSWORD'),
-        port=os.environ.get('DB_PORT', '5432')
-    )
+    conn = psycopg2.connect(DATABASE_URL)
     return conn
 
 # Initialize database table
